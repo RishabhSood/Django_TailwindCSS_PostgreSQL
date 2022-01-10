@@ -271,7 +271,7 @@ rootdir/
       day
     question_text:
   ```
-  > The **year** attribute, for example can be represented as follows: **question**pub_date**year**
+  > The **year** attribute, for example can be represented as follows: **question__pub_date__year**
 - Consider the following Question, Choice models:
 
   ```py
