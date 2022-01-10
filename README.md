@@ -91,6 +91,10 @@ rootdir/
       }
   }
   ```
+- Also, change the timezone to cater to your region. For example, in India, the following setting would apply:
+  ```py
+  TIME_ZONE = 'Asia/Kolkata'
+  ```
 
 ### That's it you're ready to start your project now!
 
@@ -271,7 +275,7 @@ rootdir/
       day
     question_text:
   ```
-  > The **year** attribute, for example can be represented as follows: **question__pub_date__year**
+  > The **year** attribute, for example can be represented as follows: **question**pub_date**year**
 - Consider the following Question, Choice models:
 
   ```py
@@ -298,3 +302,15 @@ rootdir/
     ```py
     Choice.objects.filter(question__pub_date__year=current_year)
     ```
+
+#### DJANGO ADMIN
+
+- In order to access created Models on the admin dashboard interface (http://127.0.0.1:8000/admin/), we must register our models on the admin site. To do this, we make the following updates in the admin.py file local to the App containing the Models we wish to register:
+
+  ```py
+  from django.contrib import admin
+
+  from .models import ModelName
+
+  admin.site.register(ModelName)
+  ```
