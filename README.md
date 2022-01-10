@@ -13,9 +13,9 @@
     + [That's it you're ready to start your project now!](#that-s-it-you-re-ready-to-start-your-project-now-)
   * [Notes](#notes)
     + [APPS](#apps)
-    + [VIEWS & URLS](#views---urls)
+    + [VIEWS & URLS](#views--urls)
     + [MODELS](#models)
-      - [QUERYING & WORKING WITH MODELS](#querying---working-with-models)
+      - [QUERYING & WORKING WITH MODELS](#querying--working-with-models)
     + [DJANGO ADMIN](#django-admin)
       
 ## Initial Setup:
