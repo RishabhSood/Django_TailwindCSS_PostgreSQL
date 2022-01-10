@@ -1,27 +1,29 @@
 # Creating a Django Polls App with PostgreSQL Database
 
+![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+
 ### Create a Virtual Environment
 
 ```console
-    user@device:~/projectDir$ python -m venv env
+user@device:~/projectDir$ python -m venv env
 ```
 
 ### Activate Virtual Environment
 
 ```console
-    user@device:~/projectDir$ env/Scripts/Activate
+user@device:~/projectDir$ env/Scripts/Activate
 ```
 
 ### Install Django
 
 ```console
-    user@device:~/projectDir$ pip install Django
+user@device:~/projectDir$ pip install Django
 ```
 
 ### Initialize Django Project
 
 ```console
-    user@device:~/projectDir$ django-admin startproject projectname .
+user@device:~/projectDir$ django-admin startproject projectname .
 ```
 
 > A look at the general file structure post initialization:
