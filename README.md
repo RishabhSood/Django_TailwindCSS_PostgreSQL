@@ -2,6 +2,24 @@
 
 ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
+## TABLE OF CONTENTS
+  * [Initial Setup:](#initial-setup-)
+    + [Create a Virtual Environment](#create-a-virtual-environment)
+    + [Activate Virtual Environment](#activate-virtual-environment)
+    + [Install Django](#install-django)
+    + [Initialize Django Project](#initialize-django-project)
+    + [Setup Database (PostgreSQL)](#setup-database--postgresql-)
+    + [Integrate Database](#integrate-database)
+    + [That's it you're ready to start your project now!](#that-s-it-you-re-ready-to-start-your-project-now-)
+  * [Notes](#notes)
+    + [APPS](#apps)
+    + [VIEWS & URLS](#views---urls)
+    + [MODELS](#models)
+      - [QUERYING & WORKING WITH MODELS](#querying---working-with-models)
+    + [DJANGO ADMIN](#django-admin)
+      
+## Initial Setup:
+
 ### Create a Virtual Environment
 
 ```console
@@ -303,7 +321,7 @@ rootdir/
     Choice.objects.filter(question__pub_date__year=current_year)
     ```
 
-#### DJANGO ADMIN
+### DJANGO ADMIN
 
 - In order to access created Models on the admin dashboard interface (http://127.0.0.1:8000/admin/), we must register our models on the admin site. To do this, we make the following updates in the admin.py file local to the App containing the Models we wish to register:
 
