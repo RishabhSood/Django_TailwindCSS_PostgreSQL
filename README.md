@@ -16,6 +16,8 @@
   - [APPS](#apps)
   - [VIEWS](#views)
     - [TEMPLATES](#templates)
+    - [GENERIC/CLASS BASED](#genericclass-based)
+  - [FORMS](#forms)
   - [URLS](#urls)
   - [MODELS](#models)
     - [QUERYING & WORKING WITH MODELS](#querying--working-with-models)
