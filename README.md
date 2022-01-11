@@ -3,21 +3,24 @@
 ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
 ## TABLE OF CONTENTS
-  * [Initial Setup:](#initial-setup-)
-    + [Create a Virtual Environment](#create-a-virtual-environment)
-    + [Activate Virtual Environment](#activate-virtual-environment)
-    + [Install Django](#install-django)
-    + [Initialize Django Project](#initialize-django-project)
-    + [Setup Database (PostgreSQL)](#setup-database--postgresql-)
-    + [Integrate Database](#integrate-database)
-    + [That's it you're ready to start your project now!](#that-s-it-you-re-ready-to-start-your-project-now-)
-  * [Notes](#notes)
-    + [APPS](#apps)
-    + [VIEWS & URLS](#views--urls)
-    + [MODELS](#models)
-      - [QUERYING & WORKING WITH MODELS](#querying--working-with-models)
-    + [DJANGO ADMIN](#django-admin)
-      
+
+- [Initial Setup:](#initial-setup-)
+  - [Create a Virtual Environment](#create-a-virtual-environment)
+  - [Activate Virtual Environment](#activate-virtual-environment)
+  - [Install Django](#install-django)
+  - [Initialize Django Project](#initialize-django-project)
+  - [Setup Database (PostgreSQL)](#setup-database--postgresql-)
+  - [Integrate Database](#integrate-database)
+  - [That's it you're ready to start your project now!](#that-s-it-you-re-ready-to-start-your-project-now-)
+- [Notes](#notes)
+  - [APPS](#apps)
+  - [VIEWS](#views)
+    - [TEMPLATES](#templates)
+  - [URLS](#urls)
+  - [MODELS](#models)
+    - [QUERYING & WORKING WITH MODELS](#querying--working-with-models)
+  - [DJANGO ADMIN](#django-admin)
+
 ## Initial Setup:
 
 ### Create a Virtual Environment
@@ -171,22 +174,86 @@ rootdir/
   ]
   ```
 
-### VIEWS & URLS
+### VIEWS
 
-- Views related to an app (pages to be rendered) are defined in the views.py file.
+> A view is a “type” of web page in your Django application that generally serves a specific function and has a specific template.
+
+- Views related to an app (pages to be rendered) are defined in the views.py file. Each view, takes in a request parameter, and other optional params:
+
   ```py
-  def viewname(request):
-    return HttpResponse/Template
+  def viewname(request, var1, var2, ...):
+    return HttpResponse
   ```
-- URL wrt to each view must be added to the urls file local to the app:
+
+- Some views, may depend on existence of object/s. For these, we use the get_object_or_404/get_list_or_404 shortcuts:
+
+  ```py
+  from .models import ModelName
+  from django.shortcuts import get_object_or_404
+
+  def viewname(request, id):
+    obj = get_object_or_404(ModelName, pk=id)
+    return HttpResponse
+  ```
+
+  #### TEMPLATES
+
+  - Templates (Django-Html docs) are defined inside a templates folder local to the app directory. So as to not conflict with similar template names in other "app-template" directories, we create a subfolder inside the template directory with the name of the app. The app folder structure should look similar to this:
+    ```
+    appName/
+      __init__.py
+      admin.py
+      apps.py
+      migrations/
+          __init__.py
+      models.py
+      tests.py
+      templates/
+          appName/
+              templatename.html
+      urls.py
+      views.py
+    ```
+  - In order to render HTML templates instead of plain Http Responses, we use the following django shortcut:
+
+    > Here, context defines the variables to be passed to the HTML template.
+
+    ```py
+    from django.shortcuts import render
+
+    def viewname(request, var1, var2, ...):
+      context = {
+        "var1" : var1,
+        "var2" : var2
+      }
+      return render(request, "template path inside local templates folder", context)
+    ```
+
+  - A sample template (here, the variable latest_question_list, was passed via context):
+    ```jinja
+    {% if latest_question_list %}
+      <ul>
+        {% for question in latest_question_list %}
+            <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No polls are available.</p>
+    {% endif %}
+    ```
+
+### URLS
+
+- URL wrt to each view must be added to the urls file local to the app. A url may contain path string and variables to be passed along to its corresponding view:
 
   ```py
   from django.urls import path
 
   from . import views
 
+  app_name = "appname" # defines namespace for app urls, avoids url conflicts
   urlpatterns = [
-      path('', views.viewname, name='view_name'),
+      path('<param_type:param_name>/pathstring/', views.viewname, name='view_name'),
   ]
   ```
 
@@ -200,6 +267,11 @@ rootdir/
       path('appname/', include('appname.urls')),
       path('admin/', admin.site.urls),
   ]
+  ```
+
+- URLs may be accessed in the templates, as follows:
+  ```jinja
+  <a href="{% url 'app_name:url_name' args %}"> {{ var_link_name }} </a>
   ```
 
 ### MODELS
