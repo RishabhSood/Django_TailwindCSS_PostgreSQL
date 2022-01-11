@@ -84,9 +84,10 @@ rootdir/
   postgres=#
   ```
 
-- Create custom user (optional):
+- Create custom user and allow db creation (optional):
   ```console
   postgres=# CREATE USER username WITH PASSWORD 'password';
+  postgres=# ALTER USER user CREATEDB;
   ```
 - Create db for your project:
   ```console
