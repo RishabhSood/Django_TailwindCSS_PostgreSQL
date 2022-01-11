@@ -196,6 +196,10 @@ rootdir/
     return HttpResponse
   ```
 
+- While updating object fields in views, a race condition might arise(two users parallelly updating the same fields leading to an error). To resolve this, we use the "F()" function, read the docs for the same here:
+
+  > https://docs.djangoproject.com/en/4.0/ref/models/expressions/#f-expressions
+
   #### TEMPLATES
 
   - Templates (Django-Html docs) are defined inside a templates folder local to the app directory. So as to not conflict with similar template names in other "app-template" directories, we create a subfolder inside the template directory with the name of the app. The app folder structure should look similar to this:
@@ -234,13 +238,64 @@ rootdir/
     {% if latest_question_list %}
       <ul>
         {% for question in latest_question_list %}
-            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+            <li><a href="{% url 'polls:detail' question.id %}">{{ forloop.counter }}. {{ question.question_text }}</a></li>
         {% endfor %}
       </ul>
     {% else %}
       <p>No polls are available.</p>
     {% endif %}
     ```
+
+  #### GENERIC/CLASS BASED
+
+  - Views, which list objects of a particular Model, or which display/update a certain object of a model are very common. Hence, Django provides a shortcut, called the “generic views” system, which abstract common patterns.
+  - For using generic views, a few changes must be made to the way we define our urls:
+
+    > generic view expects the primary key value captured from the URL to be called "pk"
+
+    ```py
+    # appname/urls.py
+    from django.urls import path
+    from . import views
+
+    app_name="appname"
+    urlpatterns = [
+      path('<int:pk>/viewname', views.ViewName.as_view(), name='viewname'),
+      #...
+    ]
+    ```
+
+  - A generic view, maybe defined as follows:
+
+    ```py
+    from django.views import generic
+
+    class ViewName(generic.ViewType):
+      template_name = "appname/temlate.html"
+      model = ModelName
+      context_object_name = "custom_name"
+
+      #...
+    ```
+
+  - Refer to the following links:
+    > - https://docs.djangoproject.com/en/4.0/topics/class-based-views/generic-display/
+    > - https://docs.djangoproject.com/en/4.0/topics/class-based-views/generic-editing/
+    > - https://docs.djangoproject.com/en/4.0/topics/class-based-views/mixins/
+
+### FORMS
+
+- Django provides a safe system for protection against Cross Site Reqest Forgeries. Thus, for each form defined in out templates, we use the {% csrf_token %} template tag.
+  ```jinja
+  <form action="{% url 'view_name' args %}" method="post/get">
+  {% csrf_token %}
+    <!-- form fields -->
+  </form>
+  ```
+- The **name** attribute of each form field, defines it's access name in the post data.
+  ```py
+  request.POST['field_name']
+  ```
 
 ### URLS
 
@@ -270,8 +325,20 @@ rootdir/
   ```
 
 - URLs may be accessed in the templates, as follows:
+
   ```jinja
   <a href="{% url 'app_name:url_name' args %}"> {{ var_link_name }} </a>
+  ```
+
+- A URL, can be generated from the name of the view it's connected to, by using the reverse function:
+
+  ```py
+  from django.http import HttpResponseRedirect
+  from django.urls import reverse
+
+  def viewname(request, args):
+    # ...
+    return HttpResponseRedirect(reverse('appname:viewname', args=(arg1, arg2, ...)))
   ```
 
 ### MODELS
