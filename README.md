@@ -2,6 +2,8 @@
 
 ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
+This repository aims at documenting the process of creating a Django project (integrated with TailwindCSS), which uses a PostgreSQL database. The polls app tutorial mentioned in the Django Documentation is used as a reference for making the notes. Links to useful resources are mentioned throughout this document.
+
 ## TABLE OF CONTENTS
 
 - [Initial Setup:](#initial-setup)
