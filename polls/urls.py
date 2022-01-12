@@ -5,6 +5,7 @@ app_name = 'polls'
 urlpatterns = [
     # path('', views.index, name="index"),
     path('', views.IndexView.as_view(), name='index'),
+    path('tailwind', views.TailwindView.as_view(), name='tailwind'),
     # path('<int:question_id>/', views.detail, name="detail"),
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
     # path('<int:question_id>/results/', views.results, name="results"),

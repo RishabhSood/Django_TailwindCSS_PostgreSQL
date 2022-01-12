@@ -1,17 +1,17 @@
-# Creating a Django Polls App with PostgreSQL Database
+# Django - TailwindCSS - PostgreSQL Polls APP
 
-![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
 ## TABLE OF CONTENTS
 
-- [Initial Setup:](#initial-setup-)
+- [Initial Setup:](#initial-setup)
   - [Create a Virtual Environment](#create-a-virtual-environment)
   - [Activate Virtual Environment](#activate-virtual-environment)
   - [Install Django](#install-django)
   - [Initialize Django Project](#initialize-django-project)
-  - [Setup Database (PostgreSQL)](#setup-database--postgresql-)
+  - [Setup Database (PostgreSQL)](#setup-database-postgresql)
   - [Integrate Database](#integrate-database)
-  - [That's it you're ready to start your project now!](#that-s-it-you-re-ready-to-start-your-project-now-)
+  - [That's it you're ready to start your project now!](#thats-it-youre-ready-to-start-your-project-now)
 - [Notes](#notes)
   - [APPS](#apps)
   - [VIEWS](#views)
@@ -23,6 +23,8 @@
     - [QUERYING & WORKING WITH MODELS](#querying--working-with-models)
   - [DJANGO ADMIN](#django-admin)
   - [TESTING](#testing)
+  - [STATIC FILES](#static-files)
+  - [TAILWIND CSS](#styling-via-tailwindcss)
 
 ## Initial Setup:
 
@@ -502,3 +504,119 @@ rootdir/
   ```
 
 - Read more on the same, [here](https://docs.djangoproject.com/en/4.0/intro/tutorial05/#further-testing).
+
+### STATIC FILES
+
+- Static files (imgs/js/css) are defined inside a static folder local to the app directory. So as to not conflict with similar static files names in other "app-static" directories, we create a subfolder inside the static directory with the name of the app. The app folder structure should look similar to this:
+  ```
+  appName/
+    __init__.py
+    admin.py
+    apps.py
+    migrations/
+        __init__.py
+    models.py
+    tests.py
+    templates/
+        appName/
+    static/
+        appName/
+          staticfile
+          ...
+    urls.py
+    views.py
+  ```
+- To use the static files in a template, we then use {% load static %}, to enable usage of the {% static %} template tag, which generates the absolute URL of static file.
+  ```python
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'appname/style.css' %}">
+  ```
+
+### Styling Via TailwindCSS
+
+> Use the django-tailwind library to integrate tailwind development with django, read the docs [here](https://django-tailwind.readthedocs.io/en/latest/installation.html).
+
+- Install the django-tailwind library:
+  ```console
+  user@device:~/projectDir$ pip install django-tailwind
+  ```
+- Add tailwind to the installed apps (in settings.py file):
+  ```py
+  INSTALLED_APPS = [
+      # ...
+      # TailwindCSS
+      'tailwind',
+  ]
+  ```
+- Create a theme app, which will provide tailwind styles to the whole project:
+  ```console
+  user@device:~/projectDir$ python manage.py tailwind init theme
+  ```
+- Add the theme app to the installed apps and configure the TAILWIND_APP_NAME variable.
+
+  ```py
+  INSTALLED_APPS = [
+      # ...
+      # TailwindCSS
+      'tailwind',
+      'theme',
+  ]
+
+  TAILWIND_APP_NAME = 'theme'
+  ```
+
+- Install [NodeJs](https://nodejs.org/en/)
+- Get NodeJs system path:
+  - Linux:
+    ```console
+    user@device:~/projectDir$ which npm
+    /usr/local/bin/npm
+    ```
+  - Windows:
+    ```console
+    user@device::~/projectDir$ gcm npm
+    CommandType     Name        Version    Source
+    -----------     ----        -------    ------
+    Application     npm.cmd     0.0.0.0    C:\Program Files\nodejs\npm.cmd
+    ```
+- Add path to settings.py file
+  - Linux
+    ```python
+    # rest of the settings
+    NPM_BIN_PATH = r"/usr/local/bin/npm" # add this line
+    ```
+  - Windows
+    ```python
+    # rest of the config
+    NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd" # add this line
+    ```
+- Install TailwindCSS dependencies:
+  ```console
+  user@device:~/projectDir$ python manage.py tailwind install
+  ```
+- For using tailwind in any template of any registered app, do the following:
+  ```jinja
+  {% load static tailwind_tags %}
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <!-- rest of the header -->
+      {% tailwind_preload_css %}
+      {% tailwind_css %}
+    </head>
+    <body>
+      <!-- body content -->
+    </body>
+  </html>
+  ```
+- For rendering, compile used tailwind tags by running tailwind (only required for development) prior runserver:
+  ```console
+  <!-- console 1 -->
+  user@device:~/projectDir$ python manage.py tailwind start
+  <!-- console 2 -->
+  user@device:~/projectDir$ python manage.py runserver
+  ```
+- To create a production build of your theme, run:
+  ```console
+  user@device:~/projectDir$ python manage.py tailwind build
+  ```

@@ -153,3 +153,5 @@ cython_debug/
 
 # Website Config
 core/config.py
+
+node_modules/

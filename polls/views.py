@@ -16,6 +16,10 @@ from .models import Question, Choice
 #     }
 #     return render(request, 'polls/index.html', context)
 
+class TailwindView(generic.TemplateView):
+    template_name = 'polls/tailwind-temp.html'
+
+
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
     context_object_name = 'latest_question_list'
