@@ -22,6 +22,7 @@
   - [MODELS](#models)
     - [QUERYING & WORKING WITH MODELS](#querying--working-with-models)
   - [DJANGO ADMIN](#django-admin)
+  - [TESTING](#testing)
 
 ## Initial Setup:
 
@@ -474,3 +475,30 @@ rootdir/
 
   admin.site.register(ModelName)
   ```
+
+### TESTING
+
+> Test are routines that check the operation of your code. They might work upon a tiny detail (unit tests) or examine the overall operation of the software (integration tests).
+
+- Some best practices while defining tests are :
+
+  - a separate TestClass for each model or view
+  - a separate test method for each set of conditions you want to test
+  - test method names that describe their function
+
+- We conventionaly define the test cases for an app in its tests.py file. We create a class catering to the model/view we wish to test and inherit from the [django.test.TestCase Class](https://docs.djangoproject.com/en/4.0/topics/testing/tools/#testcase).
+
+  ```py
+  from django.test import TestCase
+
+  class NameModelTests(TestCase):
+    # ...
+    self.assertIs(val1, val2)
+    # or/and
+    self.assertContains(val3, val4)
+    # or/and
+    response = self.client.get(url)
+    self.assertQuerysetEqual(response.context['attribute'], [...])
+  ```
+
+- Read more on the same, [here](https://docs.djangoproject.com/en/4.0/intro/tutorial05/#further-testing).
