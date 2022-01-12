@@ -4,6 +4,8 @@
 
 This repository aims at documenting the process of creating a Django project (integrated with TailwindCSS), which uses a PostgreSQL database. The polls app tutorial mentioned in the Django Documentation is used as a reference for making the notes. Links to useful resources are mentioned throughout this document.
 
+![djtwpsql](https://user-images.githubusercontent.com/55499929/149103647-25ecddd3-04e1-4dea-a2fa-fbc98cec06a2.jpg)
+
 ## TABLE OF CONTENTS
 
 - [Initial Setup:](#initial-setup)
