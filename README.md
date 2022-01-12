@@ -468,6 +468,8 @@ rootdir/
 
 ### DJANGO ADMIN
 
+> Customizing admin page (& custom templates) : https://docs.djangoproject.com/en/4.0/intro/tutorial07/
+
 - In order to access created Models on the admin dashboard interface (http://127.0.0.1:8000/admin/), we must register our models on the admin site. To do this, we make the following updates in the admin.py file local to the App containing the Models we wish to register:
 
   ```py
@@ -609,7 +611,7 @@ rootdir/
     </body>
   </html>
   ```
-- For rendering, compile used tailwind tags by running tailwind (only required for development) prior runserver:
+- For rendering, compile "used" tailwind tags by running tailwind (only required for development) prior runserver:
   ```console
   <!-- console 1 -->
   user@device:~/projectDir$ python manage.py tailwind start
